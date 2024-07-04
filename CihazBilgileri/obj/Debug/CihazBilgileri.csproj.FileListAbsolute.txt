@@ -1,0 +1,13 @@
+C:\Users\pg.eyupcan.balaban\source\repos\CihazBilgileri\CihazBilgileri\obj\Debug\CihazBilgileri.csprojAssemblyReference.cache
+C:\Users\pg.eyupcan.balaban\source\repos\CihazBilgileri\CihazBilgileri\obj\Debug\CihazBilgileri.csproj.CoreCompileInputs.cache
+C:\Users\pg.eyupcan.balaban\source\repos\CihazBilgileri\CihazBilgileri\bin\Debug\CihazBilgileri.exe.config
+C:\Users\pg.eyupcan.balaban\source\repos\CihazBilgileri\CihazBilgileri\bin\Debug\CihazBilgileri.exe
+C:\Users\pg.eyupcan.balaban\source\repos\CihazBilgileri\CihazBilgileri\bin\Debug\CihazBilgileri.pdb
+C:\Users\pg.eyupcan.balaban\source\repos\CihazBilgileri\CihazBilgileri\obj\Debug\CihazBilgileri.exe
+C:\Users\pg.eyupcan.balaban\source\repos\CihazBilgileri\CihazBilgileri\obj\Debug\CihazBilgileri.pdb
+G:\Drive'ım\source\CihazBilgileri\CihazBilgileri\bin\Debug\CihazBilgileri.exe.config
+G:\Drive'ım\source\CihazBilgileri\CihazBilgileri\bin\Debug\CihazBilgileri.exe
+G:\Drive'ım\source\CihazBilgileri\CihazBilgileri\bin\Debug\CihazBilgileri.pdb
+G:\Drive'ım\source\CihazBilgileri\CihazBilgileri\obj\Debug\CihazBilgileri.csproj.CoreCompileInputs.cache
+G:\Drive'ım\source\CihazBilgileri\CihazBilgileri\obj\Debug\CihazBilgileri.exe
+G:\Drive'ım\source\CihazBilgileri\CihazBilgileri\obj\Debug\CihazBilgileri.pdb
