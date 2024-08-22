@@ -30,11 +30,10 @@ Sistemde olan özellikleri komut penceresinde bilgileri göstermek.
 |---|
 | ![1](https://github.com/epbalaban01/CihazBilgileri/assets/42430554/249baadc-d317-461e-918c-e15811ed0dcc) |
 | <p align="center"><b>Arayüz Tasarımı</b></p> |
-| ![2](https://github.com/epbalaban01/CihazBilgileri/assets/42430554/4845f3eb-b424-4c5e-ac1b-e3d4836653b5) |
+| ![2](https://github.com/user-attachments/assets/00ab4315-81da-4ce3-bbdc-8540e7496304) |
 | <p align="center"><b>Görüntü 2</b></p> |
 | ![3](https://github.com/epbalaban01/CihazBilgileri/assets/42430554/9eb6af41-20f5-48c3-8eca-90e06bf8e4cc) |
 | <p align="center"><b>Görüntü 3</b></p> |
-
 
 #
 <b>Programcıdan Notlar</b>
