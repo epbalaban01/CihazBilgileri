@@ -12,9 +12,12 @@ Sistemde olan özellikleri komut penceresinde bilgileri göstermek.
 
 <h2>🧐 Özellikler</h2>
 
+- [x] Komut başlatıldığında otomatik bir şekilde masaüstüne not defteri şeklinde kaydediliyor.
 - [x] Komut penceresi tasarlandı.
 - [x] Cihaz Bilgileri en ayrıntısına kadar yazıldı.
-- [x] Kaydetmek için enter tuşuna veya herhangi bir tuşa basarak not defteri şeklinde masaüstüne kaydediliyor.
+- [x] Birden fazla sürücü varsa 1. 2. 3. gibi sırasıyla bilgileri gösterilecek şekilde ayarlandı.
+- [x] Güvenlik iyileştirmesi yapıldı.
+- [x] .NET Framework 3.5 ve üstü programı çalıştırabilecek uyumlu haline getirildi.
  
 <b>Eklenebilecek Özellikler</b>
 
