@@ -9,6 +9,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.DirectoryServices.AccountManagement;
 using System.Threading;
+using System.Text.RegularExpressions;
+using Microsoft.Win32;
 
 namespace CihazBilgileri
 {
@@ -16,7 +18,7 @@ namespace CihazBilgileri
     {
         static void Main(string[] args)
         {
-          
+
 
             Console.ForegroundColor = ConsoleColor.Red;
             // Yazılım bilgisi
@@ -49,11 +51,11 @@ namespace CihazBilgileri
             List<string> wifiAdapters = GetNetworkAdapters("Wi-Fi");
             List<string> ethernetAdapters = GetNetworkAdapters("Ethernet");
 
-    
 
-            string markaName = GetMarkaName(); 
-            string markaModel = GetSystemFamily() +" (" + GetModelName() +")";
-            string markaSerialNumber =  GetSerialNumber(); 
+
+            string markaName = GetMarkaName();
+            string markaModel = GetSystemFamily() + " (" + GetModelName() + ")";
+            string markaSerialNumber = GetSerialNumber();
 
 
             string domainName = GetDomainName();
@@ -78,17 +80,15 @@ namespace CihazBilgileri
             string ramSpeed = GetRamSpeed();
 
             string gpuInfo = GetGpuInfo();
-            string gpuDriver = GetGpuDriver();
             
+
             string installDate = GetInstallDate();
             string fulluser = GetFullUserName();
 
             string computerType = GetComputerType();
 
-            string diskName = GetDiskNames();
-            string diskSize = GetDiskSizes();
-            string diskTypes = GetDiskTypes();
-
+            //Disk
+            string diskInfoString = GetDiskInfos();
 
             string separator = new string('-', 95);
 
@@ -121,12 +121,9 @@ namespace CihazBilgileri
             $"{"Çalışma Süresi:",-30} {uptime}",
             $"{"Son BIOS Zamanı Süresi:",-30} {biosPostTime}",
             separator,
-            $"{"Grafik Ekran Kartı:",-30} {gpuInfo}",
-            $"{"Driver Version:",-30} {gpuDriver}",
+            gpuInfo,
             separator,
-            $"{"Disk Adı:",-30} {diskName}",
-            $"{"Disk Boyutu:",-30} {diskSize}",
-            $"{"Disk Tipi:",-30} {diskTypes}",
+            diskInfoString,
             separator,
             $"{"İşlemci Üreticisi:",-30} {cpuUretici}",
             $"{"İşlemci İsmi:",-30} {cpuInfo}",
@@ -140,7 +137,7 @@ namespace CihazBilgileri
             separator,
             $"{"Wi-Fi:",-30} {string.Join(Environment.NewLine, wifiAdapters)}",
             $"{"Ethernet:", -30} {string.Join(Environment.NewLine, ethernetAdapters)}",
-            
+
 
             };
 
@@ -152,69 +149,189 @@ namespace CihazBilgileri
                 Thread.Sleep(100); // Her satır arasında kısa bir bekleme süresi var
             }
 
-           
-            Console.WriteLine();
 
-            Console.WriteLine("Program açık kalıyor. Kapatmak için herhangi bir tuşa veya pencereyi kapatın...");
-            Console.ReadKey();
-
-            // IP bilgilerini dosyaya yazma
-
-            // Dosyayı kaydet
+            // Dosyayı kaydetme işlemi
             string filePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), $"{computerName}-{fullstamp}.txt");
             File.WriteAllText(filePath, sb.ToString());
 
-            //string filePath = $"\\\\10.0.0.10\\ortak\\BILGI_ISLEM\\Log\\Alfa_Pc_Sistem\\{computerName} - {userName}.txt";
-          
+            Console.WriteLine();
+            Console.WriteLine($"Cihaz bilgileri masaüstüne '{computerName}-{fullstamp}.txt' konumuna kaydedildi.");
+            Console.WriteLine("\nKapatmak için herhangi bir tuşa basın veya pencereyi kapatın...");
+
+            Console.ReadKey();
+
+
 
         }
 
         #region Disk Bilgileri
 
-        static string GetDiskNames()
+        static string GetDiskInfos()
         {
+            string diskInfos = string.Empty;
+            int diskCounter = 1;
 
-            string diskNames = string.Empty;
-            ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT Model FROM Win32_DiskDrive");
-            foreach (ManagementObject obj in searcher.Get())
+            try
             {
-                diskNames = obj["Model"].ToString();
-            }
-            return diskNames;
-        }
+                // WMI yönetim kapsamını oluştur
+                ManagementScope scope = new ManagementScope(@"\\.\root\Microsoft\Windows\Storage");
+                scope.Connect();
 
-        static string GetDiskSizes()
-        {
-            string diskSizes = string.Empty;
-            ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT Size FROM Win32_DiskDrive");
-            foreach (ManagementObject obj in searcher.Get())
-            {
-                string size = (Convert.ToUInt64(obj["Size"]) / (1024 * 1024 * 1024)).ToString() + " GB";
-                diskSizes = size;
-            }
-            return diskSizes;
+                // MSFT_PhysicalDisk sınıfı için sorgu oluştur
+                ManagementObjectSearcher searcherPhysical = new ManagementObjectSearcher(scope, new ObjectQuery("SELECT * FROM MSFT_PhysicalDisk"));
 
-        }
+                // Win32_DiskDrive sınıfı için sorgu oluştur
+                ManagementObjectSearcher searcherWin32 = new ManagementObjectSearcher("SELECT * FROM Win32_DiskDrive");
 
-        static string GetDiskTypes()
-        {
-            string diskTypes = string.Empty;
-            ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT MediaType FROM Win32_DiskDrive");
-            foreach (ManagementObject obj in searcher.Get())
-            {
-                string mediaType = obj["MediaType"]?.ToString() ?? "Unknown";
-                if (mediaType.Equals("Fixed hard disk media"))
+                // Disk bilgilerinin saklanacağı bir sözlük
+                var diskDict = new Dictionary<string, string>();
+
+                // MSFT_PhysicalDisk bilgilerini al
+                foreach (ManagementObject queryObj in searcherPhysical.Get())
                 {
+                    string name = queryObj["FriendlyName"]?.ToString() ?? "Bilinmiyor";
+                    string mediaType = "Bilinmiyor";
+
+                    // Medya türünü belirle
+                    switch (Convert.ToInt16(queryObj["MediaType"]))
+                    {
+                        case 3:
+                            mediaType = "HDD";
+                            break;
+
+                        case 4:
+                            mediaType = "SSD";
+                            break;
+
+                        case 5:
+                            mediaType = "SCM";
+                            break;
+
+                        default:
+                            mediaType = "Unspecified";
+                            break;
+                    }
+
+                    diskDict[name] = mediaType;
+                }
+
+                // Win32_DiskDrive bilgilerini al
+                foreach (ManagementObject obj in searcherWin32.Get())
+                {
+                    string name = obj["Model"]?.ToString() ?? "Unknown";
+                    string size = (Convert.ToUInt64(obj["Size"]) / (1000 * 1000 * 1000)).ToString() + " GB";
+
+                    // Adı ve türü eşleştir
+                    if (diskDict.TryGetValue(name, out string mediaType))
+                    {
+                        diskInfos += $"{diskCounter + ".Disk Adı:",-30} {name}\n";
+                        diskInfos += $"{diskCounter + ".Disk Boyutu:",-30} {size}\n";
+                        diskInfos += $"{diskCounter + ".Disk Tipi:",-30} {mediaType}\n";
+                        diskInfos += "\n";
+                        diskCounter++;
+                    }
+                    else
+                    {
+                        diskInfos += $"{diskCounter + ".Disk Adı:",-30} {name}\n";
+                        diskInfos += $"{diskCounter + ".Disk Boyutu:",-30} {size}\n";
+                        diskInfos += $"{diskCounter + ".Disk Tipi:",-30} Bilinmiyor\n";
+                        diskInfos += "\n";
+                        diskCounter++;
+                    }
+                }
+            }
+            catch (ManagementException e)
+            {
+                // Hata işleme
+                diskInfos = $"WMI Hatası: {e.Message}";
+            }
+
+            return diskInfos.TrimEnd('\n'); // Son boş satırı kaldırmak için
+        }
+
+        /* 
+         static string GetDiskInfos()
+        {
+            string diskInfos = string.Empty;
+            int diskCounter = 1;
+
+        try
+        {
+        // WMI yönetim kapsamını oluştur
+        ManagementScope scope = new ManagementScope(@"\\.\root\Microsoft\Windows\Storage");
+        scope.Connect();
+
+        // MSFT_PhysicalDisk sınıfı için sorgu oluştur
+        ManagementObjectSearcher searcherPhysical = new ManagementObjectSearcher(scope, new ObjectQuery("SELECT * FROM MSFT_PhysicalDisk"));
+
+        // Win32_DiskDrive sınıfı için sorgu oluştur
+        ManagementObjectSearcher searcherWin32 = new ManagementObjectSearcher("SELECT * FROM Win32_DiskDrive");
+
+        // Disk bilgilerinin saklanacağı bir sözlük
+        var diskDict = new Dictionary<string, string>();
+
+        // MSFT_PhysicalDisk bilgilerini al
+        foreach (ManagementObject queryObj in searcherPhysical.Get())
+        {
+            string name = queryObj["FriendlyName"]?.ToString() ?? "Unknown";
+            string mediaType = "Unknown";
+
+            // Medya türünü belirle
+            switch (Convert.ToInt16(queryObj["MediaType"]))
+            {
+                case 3:
                     mediaType = "HDD";
-                }
-                else if (mediaType.Equals("Removable Media") || mediaType.Equals("SSD"))
-                {
+                    break;
+
+                case 4:
                     mediaType = "SSD";
-                }
-                diskTypes = obj["mediaType"].ToString();
+                    break;
+
+                case 5:
+                    mediaType = "SCM";
+                    break;
+
+                default:
+                    mediaType = "Unspecified";
+                    break;
             }
-            return diskTypes;
+
+            diskDict[name] = mediaType;
         }
+
+        // Win32_DiskDrive bilgilerini al
+        foreach (ManagementObject obj in searcherWin32.Get())
+        {
+            string name = obj["Model"]?.ToString() ?? "Unknown";
+            string size = (Convert.ToUInt64(obj["Size"]) / (1000 * 1000 * 1000)).ToString() + " GB";
+
+            // Adı ve türü eşleştir
+            if (diskDict.TryGetValue(name, out string mediaType))
+            {
+                diskInfos += $"{diskCounter}. Disk Adı: {name}, Boyutu: {size}, Tipi: {mediaType}\n";
+                diskCounter++;
+            }
+            else
+            {
+                diskInfos += $"{diskCounter}. Disk Adı: {name}, Boyutu: {size}, Tipi: Unknown\n";
+                diskCounter++;
+            }
+        }
+    }
+    catch (ManagementException e)
+    {
+        // Hata işleme
+        diskInfos = $"WMI Hatası: {e.Message}";
+    }
+
+    return diskInfos.TrimEnd('\n'); // Son boş satırı kaldırmak için
+}
+
+             
+             
+             
+             
+             */
 
 
         #endregion
@@ -224,16 +341,24 @@ namespace CihazBilgileri
 
         static string GetIPAddress()
         {
-            string ipAddress = string.Empty;
-            ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT IPAddress FROM Win32_NetworkAdapterConfiguration WHERE IPEnabled = True");
-            foreach (ManagementObject obj in searcher.Get())
+            string ipAddress = "İnternet bağlantısı yok veya sürücü yüklü değil.";
+            try
             {
-                string[] addresses = (string[])obj["IPAddress"];
-                if (addresses.Length > 0)
+                ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT IPAddress FROM Win32_NetworkAdapterConfiguration WHERE IPEnabled = True");
+                foreach (ManagementObject obj in searcher.Get())
                 {
-                    ipAddress = addresses[0];
+                    string[] addresses = (string[])obj["IPAddress"];
+                    if (addresses.Length > 0)
+                    {
+                        ipAddress = addresses[0];
+                    }
+                    break;
                 }
-                break;
+            }
+            catch (Exception ex)
+            {
+                // Log or display the error message
+                ipAddress = $"Hata: {ex.Message}";
             }
             return ipAddress;
         }
@@ -241,19 +366,39 @@ namespace CihazBilgileri
         static List<string> GetNetworkAdapters(string adapterType)
         {
             List<string> adapters = new List<string>();
-            ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT * FROM Win32_NetworkAdapter WHERE NetConnectionID != NULL");
-            foreach (ManagementObject obj in searcher.Get())
+            try
             {
-                string netConnectionId = obj["NetConnectionID"].ToString();
-                if (netConnectionId.ToLower().Contains(adapterType.ToLower()))
+                ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT * FROM Win32_NetworkAdapter WHERE NetConnectionID != NULL");
+                foreach (ManagementObject obj in searcher.Get())
                 {
+                    string netConnectionId = obj["NetConnectionID"].ToString();
                     string name = obj["Name"].ToString();
-                    string macAddress = obj["MACAddress"]?.ToString();
-                    if (!string.IsNullOrEmpty(macAddress))
+
+                    // Filter out certain adapters like VirtualBox
+                    if (name.Contains("VirtualBox"))
                     {
-                        adapters.Add($"{name} > {macAddress}");
+                        continue;
+                    }
+
+                    if (netConnectionId.ToLower().Contains(adapterType.ToLower()))
+                    {
+                        string macAddress = obj["MACAddress"]?.ToString();
+                        if (!string.IsNullOrEmpty(macAddress))
+                        {
+                            adapters.Add($"{name} > {macAddress}");
+                        }
                     }
                 }
+
+                if (adapters.Count == 0)
+                {
+                    adapters.Add("İnternet bağlantısı yok veya sürücü yüklü değil.");
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log or display the error message
+                adapters.Add($"Hata: {ex.Message}");
             }
             return adapters;
         }
@@ -261,19 +406,39 @@ namespace CihazBilgileri
         static List<string> GetMacAddresses(string adapterType)
         {
             List<string> macAddresses = new List<string>();
-            ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT * FROM Win32_NetworkAdapter WHERE NetConnectionID != NULL");
-            foreach (ManagementObject obj in searcher.Get())
+            try
             {
-
-                string netConnectionId = obj["NetConnectionID"].ToString();
-                if (netConnectionId.ToLower().Contains(adapterType.ToLower()))
+                ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT * FROM Win32_NetworkAdapter WHERE NetConnectionID != NULL");
+                foreach (ManagementObject obj in searcher.Get())
                 {
-                    string macAddress = obj["MACAddress"]?.ToString();
-                    if (!string.IsNullOrEmpty(macAddress))
+                    string netConnectionId = obj["NetConnectionID"].ToString();
+                    string name = obj["Name"].ToString();
+
+                    // Filter out certain adapters like VirtualBox
+                    if (name.Contains("VirtualBox"))
                     {
-                        macAddresses.Add(macAddress);
+                        continue;
+                    }
+
+                    if (netConnectionId.ToLower().Contains(adapterType.ToLower()))
+                    {
+                        string macAddress = obj["MACAddress"]?.ToString();
+                        if (!string.IsNullOrEmpty(macAddress))
+                        {
+                            macAddresses.Add(macAddress);
+                        }
                     }
                 }
+
+                if (macAddresses.Count == 0)
+                {
+                    macAddresses.Add("İnternet bağlantısı yok veya sürücü yüklü değil.");
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log or display the error message
+                macAddresses.Add($"Hata: {ex.Message}");
             }
             return macAddresses;
         }
@@ -281,20 +446,45 @@ namespace CihazBilgileri
 
 
         #region Bilgisayar Bilgileri
-        
+
         static string GetFullUserName()
         {
             string fullName = string.Empty;
-            using (PrincipalContext context = new PrincipalContext(ContextType.Domain))
+            string registryPath = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Authentication\LogonUI";
+            string registryValueName = "LastLoggedOnDisplayName";
+
+            try
             {
-                UserPrincipal user = UserPrincipal.Current;
-                if (user != null)
+                using (RegistryKey key = Registry.LocalMachine.OpenSubKey(registryPath))
                 {
-                    fullName = user.DisplayName;
+                    if (key != null)
+                    {
+                        // DisplayName anahtarını oku
+                        object displayName = key.GetValue(registryValueName);
+                        if (displayName != null)
+                        {
+                            fullName = displayName.ToString();
+                        }
+                        else
+                        {
+                            // DisplayName anahtarı null ise
+                            fullName = $"'{registryValueName}' değeri bulunamadı.";
+                        }
+                    }
+                    else
+                    {
+                        fullName = "Kayıt defteri anahtarı bulunamadı.";
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                fullName = $"Kayıt defterine erişim hatası: {ex.Message}";
+            }
+
             return fullName;
         }
+
 
         static string GetMarkaName()
         {
@@ -357,10 +547,12 @@ namespace CihazBilgileri
             foreach (ManagementObject obj in searcher.Get())
             {
                 osName = obj["Caption"].ToString();
+
+                // "Microsoft" kelimesini çıkar
+                osName = osName.Replace("Microsoft", "").Trim();
             }
             return osName;
         }
-
 
 
         static string GetLastBootTime()
@@ -637,24 +829,45 @@ namespace CihazBilgileri
         static string GetGpuInfo()
         {
             string gpuInfo = string.Empty;
-            ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT Description, AdapterRAM, DriverVersion FROM Win32_VideoController");
-            foreach (ManagementObject obj in searcher.Get())
+            string gpuDriver = string.Empty;
+            int gpuCounter = 1;
+
+            try
             {
-                gpuInfo += $"{obj["Description"]} (RAM: {(Convert.ToDouble(obj["AdapterRAM"]) / (1024 * 1024)).ToString("F0")} MB)";
+                ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT Description, DriverVersion FROM Win32_VideoController");
+                foreach (ManagementObject obj in searcher.Get())
+                {
+                    string description = obj["Description"]?.ToString() ?? "Bilinmiyor";
+                    string description1 = obj["DriverVersion"]?.ToString() ?? "Bilinmiyor";
+
+                    // (R) gibi sembolleri temizle
+                    description = Regex.Replace(description, @"\(R\)|\(TM\)|\(C\)", "", RegexOptions.IgnoreCase).Trim();
+
+                    gpuInfo += $"{gpuCounter + ". GPU:",-30} {description}\n";
+                    gpuInfo += $"{gpuCounter + ". GPU Driver Version:",-30} {description1}\n";
+                    gpuCounter++;
+                }
+
+                if (gpuCounter == 1) // Hiç GPU bulunamadıysa
+                {
+                    gpuInfo = "GPU bulunamadı veya sürücü yüklenmedi.";
+                }
             }
-            return gpuInfo.Trim();
+            catch (ManagementException e)
+            {
+                // Hata işleme
+                gpuInfo = $"WMI Hata: {e.Message}";
+            }
+            catch (Exception e)
+            {
+                // Diğer hatalar için genel hata işleme
+                gpuInfo = $"Beklenmeyen Hata: {e.Message}";
+            }
+
+            return gpuInfo.TrimEnd('\n'); // Son boş satırı kaldırmak için
         }
 
-        static string GetGpuDriver()
-        {
-            string gpuDriver = string.Empty;
-            ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT Description, AdapterRAM, DriverVersion FROM Win32_VideoController");
-            foreach (ManagementObject obj in searcher.Get())
-            {
-                gpuDriver += $"{obj["DriverVersion"]}";
-            }
-            return gpuDriver.Trim();
-        }
+        
 
         #endregion
 

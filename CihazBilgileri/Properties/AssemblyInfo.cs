@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // denetlenir. Bütünleştirilmiş kod ile ilişkili bilgileri değiştirmek için
 // bu öznitelik değerlerini değiştirin.
 [assembly: AssemblyTitle("Cihaz Bilgileri")]
-[assembly: AssemblyDescription("Sistem bilgileri verileri çekerek size kolay bir şekilde yardımcı olmaya çalışır")]
+[assembly: AssemblyDescription("Sürüm 1.5: \n- Özel karakterler kaldırılarak GPU bilgi alımı geliştirildi.\n- Daha spesifik mesajlarla hata işleme geliştirildi.\n- 32 bit sistemlerde kayıt defteri bilgilerinin alınmasıyla ilgili sorunlar giderildi.\n- Disk ortamı türü ve boyutu bilgilerini içerecek şekilde uygulama güncellendi.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Balaban")]
 [assembly: AssemblyProduct("Cihaz Bilgileri")]
-[assembly: AssemblyCopyright("Copyright ©  2024")]
+[assembly: AssemblyCopyright("Copyright ©  2023 - 2024")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // Tüm değerleri belirtebilir veya varsayılan Derleme ve Düzeltme Numaralarını kullanmak için
 // '*' kullanarak varsayılana ayarlayabilirsiniz:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyVersion("1.5.0.0")]
+[assembly: AssemblyFileVersion("1.5.0.0")]
