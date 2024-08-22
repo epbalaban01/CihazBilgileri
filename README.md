@@ -31,8 +31,6 @@ Sistemde olan özellikleri komut penceresinde bilgileri göstermek.
 | <p align="center"><b>Görüntü 2</b></p> |
 | ![3](https://github.com/epbalaban01/CihazBilgileri/assets/42430554/9eb6af41-20f5-48c3-8eca-90e06bf8e4cc) |
 | <p align="center"><b>Görüntü 3</b></p> |
-| ![4](https://github.com/epbalaban01/CihazBilgileri/assets/42430554/1f8b2d75-c392-487a-9ce1-8f01a4dd8260) |
-| <p align="center"><b>Görüntü 4</b></p> |
 
 
 #
