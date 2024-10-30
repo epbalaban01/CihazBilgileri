@@ -51,8 +51,8 @@ Sistemde olan özellikleri komut penceresinde bilgileri göstermek.
 > [!NOTE]
 > Cihaz Bilgileri, Windows 7'den Windows 11'e kadar (sunucu sürümleri ve beta sürümleri dahil) destekler. Bu uygulamayı güvenle çalıştırabilirsiniz. 
 
-# 🤸 Usage
-## 💻 1. Elevated Command Prompt
+# 🤸 Kullanım
+## 💻 1. Yükseltilmiş Komut İstemi
 Cihaz Bilgileri çalıştırırsanız cihazın bilgileri ekrana gelecektir. Kaydetmek için enter veya programı kapatarak masaüstüne otomatik şekilde not defterine eklenecektir.
 
 <b>Desteklenen Diller</b>
@@ -73,7 +73,7 @@ Cihaz Bilgileri çalıştırırsanız cihazın bilgileri ekrana gelecektir. Kayd
 - [ ] İngilizce dil eklenebilirdi.
 - [ ] Kaydetmek için veritabanına kaydedebilirdi
 
-## ⚙️ 2. External Programs
+## ⚙️ 2. Harici Programlar
 Harici programları genişletilmiş bir komut istemi aracılığıyla çalıştırabilir. Ekrandaki görüntüler paylaşılmıştır.
 
 | <b>Ekran Görüntüleri</b> |
