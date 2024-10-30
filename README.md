@@ -34,8 +34,7 @@
     <a href="https://github.com/epbalaban01/CihazBilgileri/discussions/">Discussions</a>
     <br />
     <br />
-    🎉 Version 1.3.1 is out. Check out the release notes
-    <a href="https://github.com/epbalaban01/CihazBilgileri/releases">here</a>.
+    🎉 Sürüm 1.5 çıktı. Sürüm notlarına <a href="https://github.com/epbalaban01/CihazBilgileri/releases">buradan</a> göz atın.
     <br />
     <br />
   </p>
@@ -44,19 +43,23 @@
 ---
 
 > [!CAUTION]
-> With great power comes great responsibility! Think before you type or elevate any process and respect the privacy of others.
+> Büyük güç büyük sorumluluk getirir! Herhangi bir işlemi yazmadan veya yükseltmeden önce düşünün ve başkalarının mahremiyetine saygı gösterin.
 
-
-<h2>Açıklama</h2>
-
+# 🚀Giriş
 Sistemde olan özellikleri komut penceresinde bilgileri göstermek.
+
+> [!NOTE]
+> Cihaz Bilgileri, Windows 7'den Windows 11'e kadar (sunucu sürümleri ve beta sürümleri dahil) destekler. Bu uygulamayı güvenle çalıştırabilirsiniz. 
+
+# 🤸 Usage
+## 💻 1. Elevated Command Prompt
+Cihaz Bilgileri çalıştırırsanız cihazın bilgileri ekrana gelecektir. Kaydetmek için enter veya programı kapatarak masaüstüne otomatik şekilde not defterine eklenecektir.
 
 <b>Desteklenen Diller</b>
 - [x] Türkçe
 - [ ] İngilizce
 
-<h2>🧐 Özellikler</h2>
-
+Özellikler
 - [x] Komut başlatıldığında otomatik bir şekilde masaüstüne not defteri şeklinde kaydediliyor.
 - [x] Komut penceresi tasarlandı.
 - [x] Cihaz Bilgileri en ayrıntısına kadar yazıldı.
@@ -70,7 +73,9 @@ Sistemde olan özellikleri komut penceresinde bilgileri göstermek.
 - [ ] İngilizce dil eklenebilirdi.
 - [ ] Kaydetmek için veritabanına kaydedebilirdi
 
-      
+## ⚙️ 2. External Programs
+Harici programları genişletilmiş bir komut istemi aracılığıyla çalıştırabilir. Ekrandaki görüntüler paylaşılmıştır.
+
 | <b>Ekran Görüntüleri</b> |
 |---|
 | ![1](https://github.com/epbalaban01/CihazBilgileri/assets/42430554/249baadc-d317-461e-918c-e15811ed0dcc) |
@@ -81,14 +86,9 @@ Sistemde olan özellikleri komut penceresinde bilgileri göstermek.
 | <p align="center"><b>Görüntü 3</b></p> |
 
 
-#
-<b>Programcıdan Notlar</b>
-> <b>Öneriler, istekler ve sorunların varsa lütfen bize ulaşın! :)</b>
-
-> Lisans bilgisi tüm kod, GPL Sürüm 3 lisansı altındadır. Lisansın kullanım koşulları için LİSANS dosyasını okuyun.
-
 # 🧾 Lisans
-Cihaz Bilgileri programı aşağıdaki lisanslara sahiptir. [MIT](https://github.com/epbalaban01/CihazBilgileri/blob/main/LICENSE).
+- Cihaz Bilgileri programı aşağıdaki lisanslara sahiptir. [MIT](https://github.com/epbalaban01/CihazBilgileri/blob/main/LICENSE).
+- <b>Öneriler, istekler ve sorunların varsa lütfen bize ulaşın! :)</b>
 
 <hr>
 <h6 align="center">© 2021 - 2024 Balaban Tüm Telif Hakları Saklıdır. 
