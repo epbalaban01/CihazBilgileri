@@ -26,12 +26,12 @@
 [license-url]: https://img.shields.io/github/license/epbalaban01/CihazBilgileri
 
 <div align="center">
-  <h3 align="center">TIelevated</h3>
+  <h3 align="center">Cihaz Bilgileri</h3>
   <p align="center">
-    <p>Run any process as TrustedInstaller!</p>
-    <a href="https://github.com/epbalaban01/CihazBilgileri/issues">Report Bug</a>
+    <p>Herhangi bir işlemi Cihaz Bilgileri olarak çalıştırın!</p>
+    <a href="https://github.com/epbalaban01/CihazBilgileri/issues">Hata Bildir</a>
     ·
-    <a href="https://github.com/epbalaban01/CihazBilgileri/discussions/">Discussions</a>
+    <a href="https://github.com/epbalaban01/CihazBilgileri/discussions/">Tartışmalar</a>
     <br />
     <br />
     🎉 Sürüm 1.5 çıktı. Sürüm notlarına <a href="https://github.com/epbalaban01/CihazBilgileri/releases">buradan</a> göz atın.
