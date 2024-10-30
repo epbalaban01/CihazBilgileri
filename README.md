@@ -16,14 +16,14 @@
   [![License][license-shield]][license-url]
 </div>
 
-[version-shield]: https://img.shields.io/github/v/release/valnoxy/TIelevated?color=9565F6
+[version-shield]: https://img.shields.io/github/v/release/epbalaban01/CihazBilgileri?color=9565F6
 [version-url]: https://github.com/epbalaban01/CihazBilgileri/releases
 
-[downloads-shield]: https://img.shields.io/github/downloads/valnoxy/TIelevated/total.svg?color=431D93
+[downloads-shield]: https://img.shields.io/github/downloads/epbalaban01/CihazBilgileri/total.svg?color=431D93
 [downloads-url]: https://github.com/epbalaban01/CihazBilgileri/releases
 
-[license-shield]: https://img.shields.io/github/license/valnoxy/TIelevated?color=9565F6
-[license-url]: https://img.shields.io/github/license/valnoxy/TIelevated
+[license-shield]: https://img.shields.io/github/license/epbalaban01/CihazBilgileri?color=9565F6
+[license-url]: https://img.shields.io/github/license/epbalaban01/CihazBilgileri
 
 <div align="center">
   <h3 align="center">TIelevated</h3>
