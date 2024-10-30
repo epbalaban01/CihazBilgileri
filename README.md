@@ -42,3 +42,10 @@ Sistemde olan özellikleri komut penceresinde bilgileri göstermek.
 
 > Lisans bilgisi tüm kod, GPL Sürüm 3 lisansı altındadır. Lisansın kullanım koşulları için LİSANS dosyasını okuyun.
 
+# 🧾 Lisans
+Cihaz Bilgileri programı aşağıdaki lisanslara sahiptir. [MIT](https://github.com/epbalaban01/CihazBilgileri/blob/main/LICENSE).
+
+<hr>
+<h6 align="center">© 2021 - 2024 Balaban Tüm Telif Hakları Saklıdır. 
+<br>
+By Eyüp Can Balaban &lt;epbalaban07@gmail.com&gt;</h6>
