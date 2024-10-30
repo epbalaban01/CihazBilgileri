@@ -69,7 +69,7 @@ Harici programları genişletilmiş bir komut istemi aracılığıyla çalışt�
 
 
 # 🧾 Lisans
-- Cihaz Bilgileri programı aşağıdaki lisanslara sahiptir. [MIT](https://github.com/epbalaban01/CihazBilgileri/blob/main/LICENSE).
+- Cihaz Bilgileri, [MIT](https://github.com/epbalaban01/CihazBilgileri/blob/main/LICENSE) altında lisanslanmıştır.
 - <b>Öneriler, istekler ve sorunların varsa lütfen bize ulaşın! :)</b>
 
 <hr>
