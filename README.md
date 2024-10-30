@@ -55,24 +55,6 @@ Sistemde olan özellikleri komut penceresinde bilgileri göstermek.
 ## 💻 1. Yükseltilmiş Komut İstemi
 Cihaz Bilgileri çalıştırırsanız cihazın bilgileri ekrana gelecektir. Kaydetmek için enter veya programı kapatarak masaüstüne otomatik şekilde not defterine eklenecektir.
 
-<b>Desteklenen Diller</b>
-- [x] Türkçe
-- [ ] İngilizce
-
-Özellikler
-- [x] Komut başlatıldığında otomatik bir şekilde masaüstüne not defteri şeklinde kaydediliyor.
-- [x] Komut penceresi tasarlandı.
-- [x] Cihaz Bilgileri en ayrıntısına kadar yazıldı.
-- [x] Birden fazla sürücü varsa 1. 2. 3. gibi sırasıyla bilgileri gösterilecek şekilde ayarlandı.
-- [x] Güvenlik iyileştirmesi yapıldı.
-- [x] .NET Framework 3.5 ve üstü programı çalıştırabilecek uyumlu haline getirildi.
- 
-<b>Eklenebilecek Özellikler</b>
-
-- [ ] Arayüz daha iyi bir şekilde geliştirebilirdi.
-- [ ] İngilizce dil eklenebilirdi.
-- [ ] Kaydetmek için veritabanına kaydedebilirdi
-
 ## ⚙️ 2. Harici Programlar
 Harici programları genişletilmiş bir komut istemi aracılığıyla çalıştırabilir. Ekrandaki görüntüler paylaşılmıştır.
 
